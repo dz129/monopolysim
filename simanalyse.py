@@ -1,3 +1,4 @@
+#THIS IS NOT A FINISHED VERSION, IM JUST PUTTING THIS UP SO I CAN EDIT IT LATER
 color = open("C:/Users/laser/Desktop/C++/monopoly/color.txt", 'r')
 colorlist = color.readlines()
 newcolorlist = [line.rstrip() for line in colorlist]
