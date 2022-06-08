@@ -29,11 +29,11 @@ space* tail = NULL;
 std::vector<std::string> colorfrequency;
 std::vector<std::string> propfrequencey;
 //going to add tracker that tracks how much money each property makes
-
-//tracks which properties players have based on color, only need to track colors because the monopoly mechanic
-//the payment mechanic accounts for which properties players have
 std::vector<std::vector<std::string>> proptracker;
 std::vector<std::vector<std::string>> colortracker;
+//tracks which properties players have based on color, only need to track colors because the monopoly mechanic
+//the payment mechanic accounts for which properties players have
+
 
 //tracks the balances for each player
 std::vector<int> balances;
@@ -617,7 +617,7 @@ class player{
         checkmonopoly();
         checkrail();
         turnnum += 1;
-        if (turnnum % 3 == 0 && turnnum > 1) checkclosemonopoly(ownernum);
+        //if (turnnum % 3 == 0 && turnnum > 1) checkclosemonopoly(ownernum);
         }
     }
 };
@@ -635,6 +635,12 @@ bool checkwinner(){
 }
 
 int main(){
+    for (int i = 0; i < 100; i++){
+    propfrequencey.clear();
+    colorfrequency.clear();
+    balances.clear();
+    proptracker.clear();
+    colortracker.clear();
     buildboard();
     player p1;
     player p2;
@@ -675,7 +681,12 @@ int main(){
                 }
                 f2.close();
     }
+    }
 }
+
+
+
+
 
 
 
