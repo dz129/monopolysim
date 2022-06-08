@@ -1,4 +1,4 @@
-#THIS IS NOT A FINISHED VERSION, IM JUST PUTTING THIS UP SO I CAN EDIT IT LATER
+#This is not a final version of the data collection tool
 color = open("C:/Users/laser/Desktop/C++/monopoly/color.txt", 'r')
 colorlist = color.readlines()
 newcolorlist = [line.rstrip() for line in colorlist]
@@ -9,7 +9,7 @@ newwinlist = [line.rstrip() for line in winlist]
 print(newwinlist)
 def countcolor(list):
     total = 0
-    purp = 0
+    brown = 0
     lblue = 0
     pink = 0
     orange = 0
@@ -18,9 +18,9 @@ def countcolor(list):
     green = 0
     blue = 0
     for i in list:
-        if i == "purple":
+        if i == "brown":
             total  += 1
-            purp += 1
+            brown += 1
         if i == "lblue":
             total  += 1
             lblue += 1
@@ -42,7 +42,7 @@ def countcolor(list):
         if i == "blue":
             total  += 1
             blue += 1
-    print("Purple Percent: " + str(purp/total))
+    print("Brown Percent: " + str(brown/total))
     print("Light Blue Percent: " + str(lblue/total))
     print("Pink Percent: " + str(pink/total))
     print("orange Percent: " + str(orange/total))
@@ -60,10 +60,10 @@ def countwins(list):
         if i == "0":
             total += 1
             one += 1
-        if i == "2":
+        if i == "1":
             total += 1
             two += 1
-        if i == "3":
+        if i == "2":
             total += 1
             three += 1
     print("Player1 percentage win: " + str(one/total))
