@@ -1,0 +1,18 @@
+Just updated the code to where it can automatically play games. HOWEVER, TRADING IS CURRENTLY REMOVED. The trading feature is extremely buggy and causes segmentation faults on every run. This will be fixed in the future.
+
+I also made small updates to the python script (it's still bare bones), it wasn't reading data correctly before because of a couple logic errors but not it works fine.
+Also, the data now spans 100000 pieces of data on color and properties with 350 games being played by the computer. Here are the stats:
+
+Brown Percent: 0.07404446357738077
+Light Blue Percent: 0.13272962086036716
+Pink Percent: 0.1291319455121306
+orange Percent: 0.16334061068232833
+red Percent: 0.15016450908643644
+yellow Percent: 0.14084745241536237
+green Percent: 0.13655791642323423
+blue Percent: 0.07318348144276006
+Player1 percentage win: 0.335243553008596
+Player2 percentage win: 0.29512893982808025
+Player3 percentage win: 0.36962750716332377
+
+I am going to add a data reading feature that targets teh best properties to buy (not just color). Also I'm probably going to learn SQL to display such data in the future. But right now, I have barebones versions of both the data processing script as well as the simulator.
