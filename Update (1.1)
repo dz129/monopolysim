@@ -15,4 +15,6 @@ Player1 percentage win: 0.335243553008596
 Player2 percentage win: 0.29512893982808025
 Player3 percentage win: 0.36962750716332377
 
-I am going to add a data reading feature that targets teh best properties to buy (not just color). Also I'm probably going to learn SQL to display such data in the future. But right now, I have barebones versions of both the data processing script as well as the simulator.
+I am going to add a data reading feature that targets the best properties to buy (not just color). Also I'm probably going to learn SQL to display such data in the future. But right now, I have barebones versions of both the data processing script as well as the simulator.
+
+SMALL NOTE: The simulator encounters an infinite loop at times, I'm working on finding the root cause of that but right now, just CTRL + C to stop the infinite loop
