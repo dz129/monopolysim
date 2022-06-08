@@ -8,9 +8,13 @@ Right now I have a decent version of the simulator running (althought it wont lo
 However, I wanted to post it on here just to get it ready for future updates. 
 
 Reflection so far:
-(6/8)
+
+(6/8/22)
+
 Made my first update to the github ever, pretty happy with the automation feature that I added (basically realized what I was doing wrong before). However, an infinite loop keeps happening at random. I want to work hard to fix that before I start fixing up the trading system. 
-(6/7)
+
+(6/7/22)
+
 I definately applied a lot of the stuff that I am currently learning into this project (linked lists, OOP, etc) and am happy with how far I came with it. Originally I got the idea from a youtube video that ran simulations of monopoly to apply to machine learning. However, I just wanted to make a simulation that played games as long as possible.
 I think it has been a pretty successful project so far and I'm proud of myself since this is the longest one I've done (and it's still not done!). The major hiccups I've had were things like segmentation errors and trying to overcome that as well as getting everything to get in unision.
 The thing i need to improve on the most is planning ahead. Oh my god. If i planned most of this ahead, I could have avoided a lot of errors, so next time I will be less hasty in starting projects, still a really great learning experience so far.
