@@ -3,6 +3,7 @@
 #include <random>
 #include <cstdlib>
 #include <fstream>
+#include <algorithm>
 // different types of spaces: jail, go, community chest, chance, property, railroad, utility
 struct space{
     int owned;
@@ -111,6 +112,15 @@ void buildboard(){
     //makes sure that boardwalk is connected to go
     tail -> next = head;
 }
+void clearboard(){
+    space* temp1 = head;
+    space* temp2 = head;
+    while(temp1 -> next != NULL){
+        temp1 = temp1 -> next;
+        temp2 -> next = NULL;
+        temp2 = temp1;
+    }
+}
 void printboard(){
     space* tempx = head;
     for (int i = 0; i < 40; i++){
@@ -136,6 +146,7 @@ class player{
     int jailrolls = 3;
     int turnnum = 0;
     std::vector<std::string> props;
+    std::vector<std::string> colors;
     public:
 
     int ownernum;
@@ -143,16 +154,19 @@ class player{
         //constructor to make the vectors needed
         balances.push_back(balance);
         proptracker.push_back(props);
+        colortracker.push_back(colors);
     }
 
     void buyprop(){
         //buys the property
         //might want to have a condition for this like "if the player has this amount of money, buy, if less, dont buy"
         //specify condition in traversal function
+        std::string key = temp -> name;
         temp -> owned = ownernum;
         int price = temp -> cost;
         balances[ownernum] -= price;
-        proptracker[ownernum].push_back(temp -> color);
+        proptracker[ownernum].push_back(temp -> name);
+        colortracker[ownernum].push_back(temp -> color);
     }
     void pay(){
         //charges the player based on monopoly,houses, and hotels
@@ -279,7 +293,7 @@ class player{
         //sends to boardwalk since that is where tail will be on the final board
         temp = tail;
 
-        if (temp -> owned != -1){
+        if (temp -> owned != -1 && temp -> owned != ownernum){
         pay();
         }
         if (temp -> owned == -1){
@@ -294,7 +308,7 @@ class player{
             temp = temp -> next;
         }
         temp -> next;
-        if (temp -> owned != -1){
+        if (temp -> owned != -1 && temp -> owned != ownernum){
         pay();
         }
         if (temp -> owned == -1){
@@ -334,7 +348,7 @@ class player{
             temp = temp -> next;
         }
         temp -> next;
-        if (temp -> owned != -1){
+        if (temp -> owned != -1 && temp -> owned != ownernum){
         pay();
         }
         if (temp -> owned == -1){
@@ -353,7 +367,7 @@ class player{
         propfrequencey.push_back(temp -> name);
         colorfrequency.push_back(temp -> color);
         if (temp -> type == "property"){
-            if (temp -> owned != -1){
+            if (temp -> owned != -1 && temp -> owned != ownernum){
                 pay();
             }
             if (temp -> owned == -1){
@@ -368,10 +382,10 @@ class player{
             jailtraverse();
         }
         if (temp -> type == "railroad"){
-            if (temp -> owned != -1){
+            if (temp -> owned != -1 && temp -> owned != ownernum){
                 pay();
             }
-            if (temp -> owned == -1){
+            if (temp -> owned == -1 && temp -> owned != ownernum){
                 buyprop();
                 numrail += 1;
             }
@@ -386,10 +400,10 @@ class player{
             pay();
         }
         if (temp -> type == "utility"){
-            if (temp -> owned != -1){
+            if (temp -> owned != -1 && temp -> owned != ownernum){
                 pay();
             }
-            if (temp -> owned == -1){
+            if (temp -> owned == -1 && temp -> owned != ownernum){
                 if (balances[ownernum] > 200){
                 buyprop();
                 }
@@ -414,19 +428,30 @@ class player{
             jailstatus = false;
         }
     }
+    void buildhouse(){
+        
+
+    }
     void enactmonopoly(std::string color){
-        std::cout << "enacting monopoly" << "\n"; 
+        std::cout << "enacting monopoly for " << color <<  "\n"; 
         //This function makes a property a monopoly by changing the monostatus from false to true
         space* mono = head;
         for (int i = 0; i < 40; i++){
             if (mono-> color == color){
                 mono -> monostat = true;
                 mono -> owned = ownernum;
+                while (balances[ownernum] > 200 && temp -> numhouses < 5){
+                std::cout << "building house";   
+                mono -> numhouses += 1;
+                //currently all houses cost 100, might want to change that by adding a new variable within the struct
+                balances[ownernum] - 100;
+                if (balances[ownernum] > 200 && mono -> numhouses == 4) mono -> numhotel = 1;
+                }
             }
         }
     }
 
-
+    
 
     void checkmonopoly(){
         std::cout << "checking monopoly" << "\n";
@@ -439,15 +464,15 @@ class player{
         int red = 0;
         int yellow = 0;
         int green = 0;
-        for (int i = 0; i < proptracker[ownernum].size(); i++){
-            if (proptracker[ownernum][i] == "red") red += 1;
-            if (proptracker[ownernum][i] == "brown") red += 1;
-            if (proptracker[ownernum][i] == "lblue") red += 1;
-            if (proptracker[ownernum][i] == "pink") red += 1;
-            if (proptracker[ownernum][i] == "orange") red += 1;
-            if (proptracker[ownernum][i] == "blue") red += 1;
-            if (proptracker[ownernum][i] == "yellow") red += 1;
-            if (proptracker[ownernum][i] == "green") red += 1;
+        for (int i = 0; i < colortracker[ownernum].size(); i++){
+            if (colortracker[ownernum][i] == "red") red += 1;
+            if (colortracker[ownernum][i] == "brown") brown += 1;
+            if (colortracker[ownernum][i] == "lblue") lblue += 1;
+            if (colortracker[ownernum][i] == "pink") pink += 1;
+            if (colortracker[ownernum][i] == "orange") orange += 1;
+            if (colortracker[ownernum][i] == "blue") blue += 1;
+            if (colortracker[ownernum][i] == "yellow") yellow += 1;
+            if (colortracker[ownernum][i] == "green") green += 1;
         }
         if (blue == 2){
             enactmonopoly("blue");
@@ -476,21 +501,33 @@ class player{
     }        
     
     void trade(int ownernum, int tradernum, std::string color){
+        std::string tradeprop;
+        space* trader = head;
         for (int i = 0; i < colortracker[ownernum].size(); i++){
             for(int j = 0; j < colortracker[tradernum].size(); j++){
                 if (colortracker[tradernum][j] == color){
                     colortracker[ownernum].push_back(colortracker[tradernum][j]);
                     proptracker[ownernum].push_back(proptracker[tradernum][j]);
+                    colortracker[tradernum].erase(colortracker[tradernum].begin() + j);
+                    proptracker[tradernum].erase(proptracker[tradernum].begin() + j);
+                    proptracker[tradernum][j] = tradeprop;
+                    }
                 }
             }
-        }
-        std::cout << "traded\n " << color ;
-        checkmonopoly();
+        for (int k = 0; k < 40; k++){
+            if (trader -> name != tradeprop && trader -> owned != ownernum) trader -> owned = ownernum;
+
+        
+    }
+    checkmonopoly();
+    std::cout << "traded\n " << color << ownernum << "and" << tradernum;
     }
 
     void attempttrade(std::string color){
         std::cout << "attempting trade for : "<< color << "\n";
-        for(int i = 0; i < proptracker.size(); i++){
+        std::cout << colortracker.size() << "\n";
+        std::cout << proptracker.size() << "\n";
+        for(int i = 0; i < colortracker.size(); i++){
         if (i != ownernum){
         int blue = 0;
         int brown = 0;
@@ -500,41 +537,41 @@ class player{
         int red = 0;
         int yellow = 0;
         int green = 0;
-        for (int j = 0; j < proptracker[i].size(); j++){
-            if (proptracker[i][j] == "red") red += 1;
-            if (proptracker[i][j] == "brown") red += 1;
-            if (proptracker[i][j] == "lblue") red += 1;
-            if (proptracker[i][j] == "pink") red += 1;
-            if (proptracker[i][j] == "orange") red += 1;
-            if (proptracker[i][j] == "blue") red += 1;
-            if (proptracker[i][j] == "yellow") red += 1;
-            if (proptracker[i][j] == "green") red += 1;
+        for (int j = 0; j < colortracker[i].size(); j++){
+            if (colortracker[i][j] == "red") red += 1;
+            if (colortracker[i][j] == "brown") brown += 1;
+            if (colortracker[i][j] == "lblue") lblue += 1;
+            if (colortracker[i][j] == "pink") pink += 1;
+            if (colortracker[i][j] == "orange") orange += 1;
+            if (colortracker[i][j] == "blue") blue += 1;
+            if (colortracker[i][j] == "yellow") yellow += 1;
+            if (colortracker[i][j] == "green") green += 1;
         }
-        for (int j = 0; j < proptracker[i].size(); j++){
+        for (int j = 0; j < colortracker[i].size(); j++){
         if (j != ownernum){
         if (color == "blue" && blue == 1){
-            trade(ownernum , j , "blue");
+            trade(ownernum , i , "blue");
         }
         if (color == "brown" && brown == 1){
-            trade(ownernum , j , "brown");
+            trade(ownernum , i , "brown");
         }
         if (color == "red" && red == 1){
-            trade(ownernum , j , "red");
+            trade(ownernum , i , "red");
         }
         if (color == "lblue" && lblue == 1){
-            trade(ownernum , j , "lblue");
+            trade(ownernum , i , "lblue");
         }
         if (color == "pink" && pink == 1){
-            trade(ownernum , j , "pink");
+            trade(ownernum , i , "pink");
         }
         if (color == "orange" && orange == 1){
-            trade(ownernum , j , "orange");
+            trade(ownernum , i , "orange");
         }
         if (color == "yellow" && yellow == 1){
-            trade(ownernum , j , "yellow");
+            trade(ownernum , i , "yellow");
         }
         if (color == "green" && green == 1){
-            trade(ownernum , j , "green");
+            trade(ownernum , i , "green");
         }
         }
         }
@@ -552,15 +589,15 @@ class player{
         int red = 0;
         int yellow = 0;
         int green = 0;
-        for (int i = 0; i < proptracker[numcheck].size(); i++){
-            if (proptracker[numcheck][i] == "red") red += 1;
-            if (proptracker[numcheck][i] == "brown") brown += 1;
-            if (proptracker[numcheck][i] == "lblue") lblue += 1;
-            if (proptracker[numcheck][i] == "pink") pink += 1;
-            if (proptracker[numcheck][i] == "orange") orange += 1;
-            if (proptracker[numcheck][i] == "blue") blue += 1;
-            if (proptracker[numcheck][i] == "yellow") yellow += 1;
-            if (proptracker[numcheck][i] == "green") green += 1;
+        for (int i = 0; i < colortracker[numcheck].size(); i++){
+            if (colortracker[numcheck][i] == "red") red += 1;
+            if (colortracker[numcheck][i] == "brown") brown += 1;
+            if (colortracker[numcheck][i] == "lblue") lblue += 1;
+            if (colortracker[numcheck][i] == "pink") pink += 1;
+            if (colortracker[numcheck][i] == "orange") orange += 1;
+            if (colortracker[numcheck][i] == "blue") blue += 1;
+            if (colortracker[numcheck][i] == "yellow") yellow += 1;
+            if (colortracker[numcheck][i] == "green") green += 1;
         }
         if (blue == 1){
             attempttrade("blue");
@@ -607,8 +644,15 @@ class player{
         }
     }
     void turn(){
+        for( int i = 0; i < proptracker[ownernum].size(); i++){
+            std::cout << proptracker[ownernum][i] << " ";
+        }
+        for( int i = 0; i < colortracker[ownernum].size(); i++){
+            std::cout << colortracker[ownernum][i] << " ";
+        }
         std::cout << "player:" << ownernum << "\n";
         if (balances[ownernum] >= 0){
+        if (turnnum % 3 == 0 && turnnum > 1) checkclosemonopoly(ownernum);
         checkjail();
         traversal();
         traversal();
@@ -617,7 +661,7 @@ class player{
         checkmonopoly();
         checkrail();
         turnnum += 1;
-        //if (turnnum % 3 == 0 && turnnum > 1) checkclosemonopoly(ownernum);
+
         }
     }
 };
@@ -635,7 +679,7 @@ bool checkwinner(){
 }
 
 int main(){
-    for (int i = 0; i < 100; i++){
+    for (int i = 0; i < 3; i++){
     propfrequencey.clear();
     colorfrequency.clear();
     balances.clear();
@@ -683,8 +727,6 @@ int main(){
     }
     }
 }
-
-
 
 
 
