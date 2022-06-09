@@ -9,6 +9,9 @@ However, I wanted to post it on here just to get it ready for future updates.
 
 Reflection so far:
 
+(6/9/22)
+My god I was frustrated today. I was debugging the program for a lot of issues listed in update (1.2). I'll keep doing the project on a later date. I got some features to work at the cost of other features. Also I'm going to finish the python data processor today.
+
 (6/8/22)
 Made my first update to the github ever, pretty happy with the automation feature that I added (basically realized what I was doing wrong before). However, an infinite loop keeps happening at random. I want to work hard to fix that before I start fixing up the trading system. 
 
