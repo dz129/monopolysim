@@ -1,0 +1,14 @@
+The trading feature has been kind of fixed, but after debugging it for quite a bit, I've noticed serveral other issues within the program. 
+
+Here they are:
+
+- Properties can be bought (and traded I think) by a robot 2 times (so for example: a robot bought oriental and then bought it again after landing on it again. I tried to fix this by editing my conditions for buying (which i thought were fine) and it didn't change anything. I have yet to locate where the bug is coming from.
+- Trading is buggy and results in unintended loops sometimes
+- Trading causes segmentation errors that I cannot track down
+- For some odd reason, when the game is reset, the ownership status of some of the board doesnt reset until later (so on the first roll, the bots dont buy the property, they get charged the rent associated with the property. This only happens after the third trial (why such a weird number?) and onwards. Again, I have no idea why this is happening since the board should be resetting on every game. 
+
+I'm going to take a break on the project for a while and probably work on it on a later date. TBH I'm really frustrated so I'm gonna take some time off it.
+
+The previous version is good for collecting data, use that one too pool data on squares, colors, and player wins. 
+
+I'll probably try to fix all these major bugs in the next week or two
