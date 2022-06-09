@@ -203,6 +203,7 @@ def countprops(list):
         if i == "Boardwalk":
             total += 1
             Bw += 1
+    #Yes I know I could have just done a single function to get the count and the percentages as well as print it, i was tired lol
     print("Total: " + str(total))
     print("Med: " + str(med) + " %: " + str(med/total))
     print("Com: " + str(com) + " %: " + str(com/total))
